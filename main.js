@@ -56,7 +56,8 @@ var paging = {
     }
 };
 
-function loadCards(page=0) {
+function loadCards(page = 0) {
+    player.hidden = location.protocol == 'https:'; //cant play http audio on https
     swiper.slideTo(0, 1000, false);
     swiper.removeAllSlides();
     (page <= 0) ? paging.load() : paging.change(page);
@@ -79,7 +80,8 @@ function slideClicked() {
     if (indx == paging.trackIndex) return togglePlay();
     paging.update(indx)
     const item = library2[indx];
-    audioLink.href = player.src = item.url;
+    audioLink.href = item.url;
+    if (!player.hidden) player.src = item.url;
 
     document.querySelectorAll('.playing-slide').forEach(e => e.classList.remove('playing-slide'));
     swiper.clickedSlide.classList.add('playing-slide');
